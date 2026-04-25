@@ -30,8 +30,17 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# ── ENV FILES — NEVER COMMIT CREDENTIALS ──────────────────
+# Commit .env.example (safe template, no real values)
+# NEVER commit .env.local or .env.production
+.env.local
+.env.production
+.env.test
+# Allow only the example template
+!.env.example
+
+# ── BACKUPS — keep locally, don't push to git ─────────────
+/backups/
 
 # vercel
 .vercel
