@@ -7,7 +7,7 @@ import EnrollmentRequest from '@/models/EnrollmentRequest';
 import Course from '@/models/Course';
 export default async function DashboardPage() {
   const session = await auth();
-  if (!session) redirect('/login');
+  if (!session || !session.user) redirect('/login');
   // Admin & Staff should go to their respective dashboards
   if ((session.user as any).role === 'admin') redirect('/admin');
   if ((session.user as any).role === 'staff') redirect('/staff');
@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   await dbConnect();
   
   // Fetch enrollment requests
-  const rawRequests = await EnrollmentRequest.find({ studentId: session.user.id })
+  const rawRequests = await EnrollmentRequest.find({ studentId: (session.user as any).id })
     .populate({ path: 'courseId', model: Course, select: 'title icon color discountedFees fees' })
     .sort({ requestDate: -1 })
     .lean();
@@ -34,7 +34,7 @@ export default async function DashboardPage() {
   }));
 
   // Fetch active enrollments with course details
-  const rawEnrollments = await Enrollment.find({ studentId: session.user.id })
+  const rawEnrollments = await Enrollment.find({ studentId: (session.user as any).id })
     .populate({ path: 'courseId', model: Course, select: 'title color icon fullName' })
     .sort({ createdAt: -1 })
     .lean();
