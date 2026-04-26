@@ -6,7 +6,6 @@ const COLORS = ['#6366f1', '#06b6d4', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'
 
 interface ChartDataProps {
   monthlyRevenue: Array<{ month: string; revenue: number; target: number }>;
-  enrollmentByCategory: Array<{ name: string; students: number }>;
   coursePopularity: Array<{ name: string; enrollments: number }>;
   feesStatus: Array<{ month: string; collected: number; pending: number }>;
 }
